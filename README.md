@@ -1,8 +1,8 @@
 <h1>ExpNo 1 :Developing AI Agent with PEAS Description</h1>
-<h3>Name: MANIKANDAN M
-<h3>Register Number: 212224040183
+<h3>Name: RATTISH KUMAR SS
+<h3>Register Number: 212224230223
   
-## Date: 27/10/2026
+## Date: 15/10/2026
 
 <h3>AIM:</h3>
 <br>
@@ -46,49 +46,79 @@
 
 ```
 import random
-class MedicinePrescribingAgent:
-    def __init__(self):
-        self.rooms = {
-            "Room 1": random.uniform(97.0, 102.5),
-            "Room 2": random.uniform(97.0, 102.5)
-        }
-        self.performance = 0
-        self.current_room = random.choice(list(self.rooms.keys()))
-    def sense(self):
-        """Sense current room and patient's temperature."""
-        temperature = self.rooms[self.current_room]
-        print(f"\nAgent is in {self.current_room}")
-        print(f"Patient Temperature: {temperature:.1f}°F")
-        return temperature
-    def prescribe_medicine(self, temperature):
-        """Treat patient if temperature is above 98.5°F."""
-        if temperature > 98.5:
-            print("Patient has fever.")
-            print("Medicine Prescribed.")
-            self.performance += 1
+
+class HealthMonitoringAgent:
+    def __init__(self, patient_data):
+        self.patient_data = patient_data
+
+    def monitor_health(self):
+        # Print patient details
+        print("===== Patient Details =====")
+        print(f"Patient ID : {self.patient_data['patient_id']}")
+        print(f"Name       : {self.patient_data['name']}")
+        print(f"Age        : {self.patient_data['age']}")
+        print("===========================\n")
+
+        while True:
+            current_health_state = self.sensors.get_health_state()
+
+            # Display current health readings
+            print("Current Health State:")
+            print(f"Heart Rate    : {current_health_state['heart_rate']} bpm")
+            print(f"Blood Pressure: {current_health_state['blood_pressure']} mmHg")
+            print(f"Temperature   : {current_health_state['temperature']:.1f} °C")
+
+            action = self.choose_action(current_health_state)
+            self.actuators.perform_action(action)
+            print()
+
+            if action == "No specific action needed":
+                break
+
+    def choose_action(self, current_health_state):
+        if current_health_state['heart_rate'] > 110:
+            return "Alert healthcare provider: High heart rate detected"
+        elif current_health_state['blood_pressure'] > 140:
+            return "Alert healthcare provider: High blood pressure detected"
+        elif current_health_state['temperature'] > 38:
+            return "Recommend rest and monitor temperature"
         else:
-            print("Patient is healthy.")
-            print("No medicine required.")
-    def move(self):
-        """Move to the other room."""
-        previous_room = self.current_room
-        self.current_room = "Room 2" if self.current_room == "Room 1" else "Room 1"
-        print(f"\nMoving from {previous_room} to {self.current_room}")
-        self.performance -= 1
-    def run(self):
-        print("=== Medicine Prescribing Agent ===")
-        temperature = self.sense()
-        self.prescribe_medicine(temperature)
-        self.move()
-        temperature = self.sense()
-        self.prescribe_medicine(temperature)
-        print("\nFinal Performance:", self.performance)
-agent = MedicinePrescribingAgent()
-agent.run()
+            return "No specific action needed"
+
+
+class HealthSensors:
+    def get_health_state(self):
+        return {
+            'heart_rate': random.randint(60, 150),
+            'blood_pressure': random.randint(90, 160),
+            'temperature': random.uniform(36.0, 38.5)
+        }
+
+
+class HealthActuators:
+    def perform_action(self, action):
+        print("Action:", action)
+
+
+if __name__ == "__main__":
+    patient_data = {
+        'patient_id': 1237,
+        'name': 'Rattish Kumar S S',
+        'age': 19
+    }
+
+    health_sensors = HealthSensors()
+    health_actuators = HealthActuators()
+
+    health_monitoring_agent = HealthMonitoringAgent(patient_data)
+    health_monitoring_agent.sensors = health_sensors
+    health_monitoring_agent.actuators = health_actuators
+
+    health_monitoring_agent.monitor_health()
 ```
 
 # Output:
-<img width="377" height="487" alt="image" src="https://github.com/user-attachments/assets/620a9cc2-95e3-483d-9dbf-fbe08d37acb8" />
+<img width="518" height="395" alt="image" src="https://github.com/user-attachments/assets/7f8938ce-a70b-4e74-89cf-2cabc9c846fd" />
 
 # Result:
 Thus found the PEAS description for the given AI problem and develop an AI agent.
